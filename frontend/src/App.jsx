@@ -5,6 +5,7 @@ import Footer from './components/Footer';
 import Home from './pages/Home';
 import Nosotros from './pages/Nosotros';
 import Contacto from './pages/Contacto';
+import Noticias from './pages/Noticias';
 import Custodia from './pages/Servicios/Custodia';
 import Eventos from './pages/Servicios/Eventos';
 import Instalaciones from './pages/Servicios/Instalaciones';
@@ -30,6 +31,7 @@ function App() {
         <Route path="/Servicios/proteccionP" element={<ProteccionP />} />
         <Route path="/Servicios/traslado" element={<Traslado />} />
         <Route path="/Servicios/verificaciones" element={<Verificaciones />} />
+        <Route path="/noticias" element={<Noticias />} />
 
       </Routes>
 

@@ -6,11 +6,35 @@ import '../css/shared.css'
 import FadeIn from "../components/FadeIn";
 
 function Contacto() {
+    const [enviado, setEnviado] = useState(false);
+    const [resultado, setResultado] = useState(null);
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        // AQUÍ IRÁ LA LÓGICA DE BACKEND POSTERIORMENTE
-        alert("¡Formulario validado por React!");
+        setEnviado(true);
+        setResultado(null);
+
+        const form = event.target;
+
+        try {
+            await axios.post("http://localhost:3001/api/contacto", {
+                full_name: form.contacto.value,
+                email: form.email.value,
+                phone: form.telefono.value,
+                company: form.empresa.value,
+                service_interested: form.servicio.value,
+                message: form.mensaje.value,
+                ruc: form.ruc.value,
+                position: form.cargo.value,
+            });
+            setResultado("ok");
+            form.reset();
+        } catch (err) {
+            console.error(err);
+            setResultado("error");
+        } finally {
+            setEnviado(false)
+        }
     };
 
     return (
@@ -135,8 +159,24 @@ function Contacto() {
                                             placeholder="Describa sus necesidades de seguridad, cantidad de personal requerido, ubicación, horarios, etc."></textarea>
                                     </div>
 
-                                    <button type="submit" className="btn btn-primary" style={{ width: "100%", justifyContent: "center" }}>Enviar
-                                        Solicitud</button>
+                                    {resultado === "ok" && (
+                                        <p style={{ color: "green", marginBottom: "12px" }}>
+                                            mensaje enviado
+                                        </p>
+                                    )}
+                                    {resultado === "error" && (
+                                        <p style={{ color: "red", marginBottom: "12px" }}>
+                                            Error al enviar, vuelva a intentar
+                                        </p>
+                                    )}
+
+                                    <button
+                                        type="submit"
+                                        className="btn btn-primary"
+                                        style={{ width: "100%", justifyContent: "center" }}
+                                        disabled={enviado}>
+                                        {enviado ? "enviando..." : "Enviar solicitud"}
+                                    </button>
                                 </form>
                             </div>
                         </FadeIn>

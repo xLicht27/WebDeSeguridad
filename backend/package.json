@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "concurrently \"npm run server\" \"npm run dev-frontend\"",
-    "server": "node server.js",
+    "server": "nodemon server.js",
     "dev-frontend": "npm run dev --prefix ../frontend"
   },
   "keywords": [],
@@ -19,6 +19,7 @@
     "pg": "^8.20.0"
   },
   "devDependencies": {
-    "concurrently": "^9.2.1"
+    "concurrently": "^9.2.1",
+    "nodemon": "^3.1.14"
   }
 }
