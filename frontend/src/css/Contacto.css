@@ -133,3 +133,45 @@
     height: 120px;
     resize: vertical;
 }
+
+/* ── Responsive: Tablet (≤ 900px) ─────────────── */
+@media (max-width: 900px) {
+    .contact-grid {
+        grid-template-columns: 1fr;
+        gap: 32px;
+    }
+}
+
+/* ── Responsive: Móvil (≤ 600px) ──────────────── */
+@media (max-width: 600px) {
+    .contact-grid {
+        grid-template-columns: 1fr;
+        gap: 24px;
+    }
+
+    .contact-info-card,
+    .contact-form {
+        padding: 24px 16px;
+    }
+
+    .contact-info-card h3,
+    .contact-form h3 {
+        font-size: 1.2rem;
+    }
+
+    /* Filas del formulario pasan a 1 columna */
+    .form-row {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+
+    .contact-map iframe {
+        height: 200px;
+    }
+
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+        font-size: 1rem; /* Evita zoom automático en iOS */
+    }
+}
