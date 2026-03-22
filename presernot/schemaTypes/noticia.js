@@ -39,6 +39,11 @@ export default {
             title: 'Contenido',
             type: 'array',
             of: [{ type: 'block' }]
+        },
+        {
+            name: 'autor',
+            title: 'Autor',
+            type: 'string',
         }
     ]
 }

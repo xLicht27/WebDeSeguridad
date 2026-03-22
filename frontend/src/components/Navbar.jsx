@@ -44,7 +44,7 @@ export default function Navbar() {
                             <Link to="/servicios/instalaciones">Seguridad en Instalaciones</Link>
                             <Link to="/servicios/investigacion">Servicios de Investigación</Link>
                             <Link to="/servicios/traslado">Traslado y Protección Corporativa</Link>
-                            <Link to="/servicios/proteccion-personalidades">Protección a Personalidades</Link>
+                            <Link to="/servicios/proteccionP">Protección a Personalidades</Link>
                             <Link to="/servicios/eventos">Seguridad para Eventos</Link>
                             <Link to="/servicios/verificaciones">Servicio de Verificaciones</Link>
                         </div>

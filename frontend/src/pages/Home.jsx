@@ -52,7 +52,7 @@ function Home() {
                         <div className="hero-content">
                             <h1>Protección y Custodia de Mercadería</h1>
                             <p>Resguardo policial con los más altos estándares de seguridad para su carga en tránsito a cualquier destino del Perú.</p>
-                            <a href="contacto.html" className="btn btn-primary">Contáctenos</a>
+                            <a href="./contacto" className="btn btn-primary">Contáctenos</a>
                         </div>
                     </div>
                 </div>
@@ -62,7 +62,7 @@ function Home() {
                         <div className="hero-content">
                             <h1>Seguridad en Instalaciones</h1>
                             <p>Protegemos empresas, edificios, plantas industriales y almacenes con personal PNP® altamente calificado.</p>
-                            <a href="contacto.html" className="btn btn-primary">Contáctenos</a>
+                            <a href="./contacto" className="btn btn-primary">Contáctenos</a>
                         </div>
                     </div>
                 </div>
@@ -72,7 +72,7 @@ function Home() {
                         <div className="hero-content">
                             <h1>Protección Corporativa VIP</h1>
                             <p>Seguridad especializada para ejecutivos, funcionarios y personalidades con equipo de alto rendimiento.</p>
-                            <a href="contacto.html" className="btn btn-primary">Contáctenos</a>
+                            <a href="./contacto" className="btn btn-primary">Contáctenos</a>
                         </div>
                     </div>
                 </div>
@@ -98,43 +98,43 @@ function Home() {
                         <p>Soluciones integrales de seguridad adaptadas a las necesidades de cada cliente</p>
                     </div>
                     <div className="services-grid">
-                        <a href="servicios/custodia.html" className="service-card fade-in">
+                        <a href="servicios/Custodia" className="service-card fade-in">
                             <div className="icon">✦</div>
                             <h3>Custodia de Mercadería</h3>
                             <p>Resguardo policial en vehículos o personal PNP® en cabina, escolta a cualquier destino del Perú.</p>
                             <span className="link">Ver más →</span>
                         </a>
-                        <a href="servicios/instalaciones.html" className="service-card fade-in">
+                        <a href="servicios/Instalaciones" className="service-card fade-in">
                             <div className="icon">✦</div>
                             <h3>Seguridad en Instalaciones</h3>
                             <p>Protección para empresas, edificios, oficinas, plantas industriales, almacenes y predios.</p>
                             <span className="link">Ver más →</span>
                         </a>
-                        <a href="servicios/investigacion.html" className="service-card fade-in">
+                        <a href="servicios/Investigacion" className="service-card fade-in">
                             <div className="icon">✦</div>
                             <h3>Servicios de Investigación</h3>
                             <p>Solución de problemas como sabotajes, robos, hurtos sistemáticos y malos manejos administrativos.</p>
                             <span className="link">Ver más →</span>
                         </a>
-                        <a href="servicios/traslado.html" className="service-card fade-in">
+                        <a href="servicios/Traslado" className="service-card fades-in">
                             <div className="icon">✦</div>
                             <h3>Traslado y Protección Corporativa</h3>
                             <p>Personal PNP® calificado para actuar ante cualquier evento de riesgo durante el traslado de personas.</p>
                             <span className="link">Ver más →</span>
                         </a>
-                        <a href="servicios/proteccion-personalidades.html" className="service-card fade-in">
+                        <a href="servicios/ProteccionP" className="service-card fade-in">
                             <div className="icon">✦</div>
                             <h3>Protección a Personalidades</h3>
                             <p>Seguridad para personas muy importantes, ejecutivos, funcionarios y otros cargos de alto perfil.</p>
                             <span className="link">Ver más →</span>
                         </a>
-                        <a href="servicios/eventos.html" className="service-card fade-in">
+                        <a href="servicios/Eventos" className="service-card fade-in">
                             <div className="icon">✦</div>
                             <h3>Seguridad para Eventos</h3>
                             <p>Cobertura de seguridad para eventos sociales, deportivos, conferencias, desfiles y reuniones.</p>
                             <span className="link">Ver más →</span>
                         </a>
-                        <a href="servicios/verificaciones.html" className="service-card fade-in" style={{ gridColumn: 'span 1' }}>
+                        <a href="servicios/Verificaciones" className="service-card fade-in" style={{ gridColumn: 'span 1' }}>
                             <div className="icon">✦</div>
                             <h3>Servicio de Verificaciones</h3>
                             <p>Verificación de información de personas, estudios socio-económicos, domiciliarios y laborales.</p>

@@ -13,6 +13,7 @@ import Investigacion from './pages/Servicios/Investigacion'
 import ProteccionP from './pages/Servicios/ProteccionP';
 import Traslado from './pages/Servicios/Traslado';
 import Verificaciones from './pages/Servicios/Verificaciones';
+import NoticiaDetalle from './pages/NoticiaDetalle';
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
         <Route path="/Servicios/traslado" element={<Traslado />} />
         <Route path="/Servicios/verificaciones" element={<Verificaciones />} />
         <Route path="/noticias" element={<Noticias />} />
+        <Route path="/noticias/:slug" element={<NoticiaDetalle />} />
 
       </Routes>
 

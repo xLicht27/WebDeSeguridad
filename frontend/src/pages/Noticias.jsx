@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { client, urlFor } from '../sanityClient'
+import { Link } from 'react-router-dom'
 import '../css/shared.css'
 import '../css/index.css'
 
@@ -11,7 +12,7 @@ function Noticias() {
         const query = `*[_type == "noticia"] | order(fecha desc) {
             titulo,
             slug,
-            imagen,
+            image,
             fecha,
             resumen
         }`
@@ -46,9 +47,9 @@ function Noticias() {
                         {!cargando && noticias.length === 0 && <p style={{ padding: '2rem' }}>No hay noticias publicadas aún.</p>}
                         {noticias.map(noticia => (
                             <div className="news-card" key={noticia.slug.current}>
-                                {noticia.imagen && (
+                                {noticia.image && (
                                     <img
-                                        src={urlFor(noticia.imagen).width(400).url()}
+                                        src={urlFor(noticia.image).width(400).url()}
                                         alt={noticia.titulo}
                                     />
                                 )}
@@ -60,6 +61,9 @@ function Noticias() {
                                     </p>
                                     <h3>{noticia.titulo}</h3>
                                     <p>{noticia.resumen}</p>
+                                    <Link to={`/noticias/${noticia.slug.current}`} className='btn btn-primary'>
+                                        Ver noticia
+                                    </Link>
                                 </div>
                             </div>
                         ))}
