@@ -1,5 +1,6 @@
 // frontend/src/App.jsx
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import ScrollToTop from './components/ScrollToTop';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Home from './pages/Home';
@@ -18,9 +19,9 @@ import NoticiaDetalle from './pages/NoticiaDetalle';
 function App() {
   return (
     <BrowserRouter>
-      {/* El Navbar y Footer están fuera de las rutas, ¡así que aparecerán en TODAS tus páginas! */}
+      <ScrollToTop />
+      <div className="app-container"></div>
       <Navbar />
-
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/nosotros" element={<Nosotros />} />
@@ -34,9 +35,7 @@ function App() {
         <Route path="/Servicios/verificaciones" element={<Verificaciones />} />
         <Route path="/noticias" element={<Noticias />} />
         <Route path="/noticias/:slug" element={<NoticiaDetalle />} />
-
       </Routes>
-
       <Footer />
     </BrowserRouter>
   )

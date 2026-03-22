@@ -75,3 +75,56 @@
     background: rgba(212, 168, 16, .1);
     color: var(--gold-400);
 }
+
+/* ── Responsive: Tablet/Mobile (≤ 900px) ─────────────── */
+@media (max-width: 900px) {
+    .service-detail-content {
+        display: flex;
+        flex-direction: column-reverse; /* Reverses the order so the 2nd child (sidebar) goes top */
+        gap: 24px;
+    }
+
+    .service-sidebar {
+        /* Remove sticky for mobile so it flows normally */
+        position: static;
+        width: 100%;
+        margin-bottom: 24px; /* Give some space below it */
+    }
+
+    .service-main {
+        width: 100%;
+    }
+
+    .sidebar-card {
+        padding: 24px;
+        margin-bottom: 0;
+    }
+
+    .sidebar-card h3 {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        cursor: pointer;
+        margin-bottom: 0; /* Remove bottom margin when collapsed */
+        user-select: none;
+    }
+
+    .sidebar-card h3::after {
+        content: '▼';
+        font-size: 0.8rem;
+        transition: transform 0.3s ease;
+    }
+
+    .sidebar-card h3.open::after {
+        transform: rotate(180deg);
+    }
+
+    .sidebar-links {
+        display: none;
+        margin-top: 20px;
+    }
+
+    .sidebar-links.open {
+        display: block;
+    }
+}

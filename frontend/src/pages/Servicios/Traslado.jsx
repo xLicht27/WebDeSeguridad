@@ -6,6 +6,7 @@ import '../../css/shared.css'
 import FadeIn from "../../components/FadeIn";
 
 function Traslado() {
+    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     return (
         <>
             <section className="page-hero">
@@ -46,24 +47,24 @@ function Traslado() {
                                 <Link to="/contacto" className="btn btn-primary" style={{ marginTop: "20px" }}>Solicitar Este Servicio</Link>
                             </div>
                         </FadeIn>
-
                         <FadeIn>
                             <div className="service-sidebar">
                                 <div className="sidebar-card">
-                                    <h3>Todos los Servicios</h3>
-                                    <Link to="/servicios/custodia">Custodia de Mercadería</Link>
-                                    <Link to="/servicios/instalaciones">Seguridad en Instalaciones</Link>
-                                    <Link to="/servicios/investigacion">Servicios de Investigación</Link>
-                                    <Link to="/servicios/traslado" className="active">Traslado y Protección Corporativa</Link>
-                                    <Link to="/servicios/proteccionP">Protección a Personalidades</Link>
-                                    <Link to="/servicios/eventos">Seguridad para Eventos</Link>
-                                    <Link to="/servicios/verificaciones">Servicio de Verificaciones</Link>
-                                </div>
-                                <div className="sidebar-card">
-                                    <h3>¿Necesita este servicio?</h3>
-                                    <p style={{ color: "var(--dark-300)", fontSize: ".9rem", marginBottom: "16px" }}>Contáctenos para una
-                                        cotización personalizada.</p>
-                                    <Link to="/contacto" className="btn btn-outline" style={{ width: "100%", justifyContent: "center" }}>Contáctenos</Link>
+                                    <h3 
+                                        onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                                        className={isMobileMenuOpen ? "open" : ""}
+                                    >
+                                        Todos los Servicios
+                                    </h3>
+                                    <div className={`sidebar-links ${isMobileMenuOpen ? "open" : ""}`}>
+                                        <Link to="/servicios/custodia">Custodia de Mercadería</Link>
+                                        <Link to="/servicios/instalaciones">Seguridad en Instalaciones</Link>
+                                        <Link to="/servicios/investigacion">Servicios de Investigación</Link>
+                                        <Link to="/servicios/traslado" className="active">Traslado y Protección Corporativa</Link>
+                                        <Link to="/servicios/proteccionP">Protección a Personalidades</Link>
+                                        <Link to="/servicios/eventos">Seguridad para Eventos</Link>
+                                        <Link to="/servicios/verificaciones">Servicio de Verificaciones</Link>
+                                    </div>
                                 </div>
                             </div>
                         </FadeIn>

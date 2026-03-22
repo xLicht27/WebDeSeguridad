@@ -75,7 +75,7 @@ function Contacto() {
                                     <div className="icon-circle">✦</div>
                                     <div className="info">
                                         <h4>Correo Electrónico</h4>
-                                        <a href="mailto:contacto@preserseguridad.com">contacto@preserseguridad.com</a>
+                                        <a href="mailto:contacto@preserseguridad.com">gerencia@preserseguridad.com</a>
                                     </div>
                                 </div>
 

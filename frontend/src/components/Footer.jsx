@@ -33,7 +33,7 @@ export default function Footer() {
                                 <p>📍 Jr. Los Mirtos N° 280, Lince, Lima</p>
                                 <a href="tel:+51979776518">📞 979 776 518</a>
                                 <a href="tel:+51941283800">📞 941  283 800</a>
-                                <a href="mailto:contacto@preserseguridad.com">✉️ contacto@preserseguridad.com</a>
+                                <a href="mailto:contacto@preserseguridad.com">✉️ gerencia@preserseguridad.com</a>
                                 <p>RUC: 20613021494</p>
                             </div>
                         </div>

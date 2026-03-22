@@ -186,8 +186,6 @@ function Home() {
                         <div className="marquee-logo"><img src="img/clientes/dodge.png" alt="Dodge" /></div>
                         <div className="marquee-logo"><img src="img/clientes/cartavio-rum.png" alt="Cartavio Rum Company" /></div>
                         <div className="marquee-logo"><img src="img/clientes/aceros-arequipa.png" alt="Aceros Arequipa" /></div>
-                        <div className="marquee-logo"><img src="img/clientes/jeep.png" alt="Jeep" /></div>
-                        <div className="marquee-logo"><img src="img/clientes/fiat.png" alt="FIAT" /></div>
                         <div className="marquee-logo"><img src="img/clientes/colegio-raimondi.svg" alt="Colegio Italiano Antonio Raimondi" /></div>
                         <div className="marquee-logo"><img src="img/clientes/andesmotor.png" alt="Andesmotor" /></div>
                         {/*- Duplicated for seamless loop -->*/}
@@ -199,8 +197,6 @@ function Home() {
                         <div className="marquee-logo"><img src="img/clientes/dodge.png" alt="Dodge" /></div>
                         <div className="marquee-logo"><img src="img/clientes/cartavio-rum.png" alt="Cartavio Rum Company" /></div>
                         <div className="marquee-logo"><img src="img/clientes/aceros-arequipa.png" alt="Aceros Arequipa" /></div>
-                        <div className="marquee-logo"><img src="img/clientes/jeep.png" alt="Jeep" /></div>
-                        <div className="marquee-logo"><img src="img/clientes/fiat.png" alt="FIAT" /></div>
                         <div className="marquee-logo"><img src="img/clientes/colegio-raimondi.svg" alt="Colegio Italiano Antonio Raimondi" /></div>
                         <div className="marquee-logo"><img src="img/clientes/andesmotor.png" alt="Andesmotor" /></div>
                     </div>

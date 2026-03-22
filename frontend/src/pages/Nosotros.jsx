@@ -176,6 +176,11 @@ function Nosotros() {
                             </div>
                             <div className="service-card">
                                 <div className="icon">✦</div>
+                                <h3>Seguro de Vida Ley</h3>
+                                <p>Respaldo sólido que asegura el bienestar de nuestro equipo y la continuidad operativa de sus proyectos</p>
+                            </div>
+                            <div className="service-card">
+                                <div className="icon">✦</div>
                                 <h3>SCTR</h3>
                                 <p>Seguro Complementario de Trabajo de Riesgo para la protección de todos nuestros colaboradores en
                                     servicio.</p>
