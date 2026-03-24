@@ -17,7 +17,8 @@ function Contacto() {
         const form = event.target;
 
         try {
-            await axios.post("http://localhost:3001/api/contacto", {
+            const apiUrl = import.meta.env.VITE_API_URL
+            await axios.post(`${apiUrl}/api/contacto`, {
                 full_name: form.contacto.value,
                 email: form.email.value,
                 phone: form.telefono.value,
@@ -67,6 +68,7 @@ function Contacto() {
                                     <div className="info">
                                         <h4>Teléfonos de Recepción</h4>
                                         <a href="tel:+51979776518">979 776 518</a>
+                                        <a>  /  </a>
                                         <a href="tel:+51941283800">941 283 800</a>
                                     </div>
                                 </div>
@@ -112,7 +114,21 @@ function Contacto() {
                                         </div>
                                         <div className="form-group">
                                             <label htmlFor="ruc">RUC</label>
-                                            <input type="text" id="ruc" name="ruc" placeholder="Ej: 20XXXXXXXXX" />
+                                            <input
+                                                type="text"
+                                                id="ruc"
+                                                name="ruc"
+                                                placeholder="Ej: 20XXXXXXXXX"
+                                                pattern="^(10|15|17|20)[0-9]{9}$"
+                                                maxLength="11"
+                                                minLength="11"
+                                                title="El RUC debe tener 11 digitos y empezar con 10, 15, 17 y 20."
+                                                onKeyPress={(event) => {
+                                                    if (!/[0-9]/.test(event.key)) {
+                                                        event.preventDefault();
+                                                    }
+                                                }}
+                                            />
                                         </div>
                                     </div>
 
@@ -130,7 +146,21 @@ function Contacto() {
                                     <div className="form-row">
                                         <div className="form-group">
                                             <label htmlFor="telefono">Teléfono *</label>
-                                            <input type="tel" id="telefono" name="telefono" required placeholder="Ej: 999 999 999" />
+                                            <input
+                                                type="tel"
+                                                id="telefono"
+                                                name="telefono"
+                                                required placeholder="Ej: 999 999 999"
+                                                pattern="[0-9]{7,9}"
+                                                maxLength="9"
+                                                minLength="7"
+                                                title="El teléfono debe contener entre 7 y 9 números sin espacios."
+                                                onKeyPress={(event) => {
+                                                    if (!/[0-9]/.test(event.key)) {
+                                                        event.preventDefault();
+                                                    }
+                                                }}
+                                            />
                                         </div>
                                         <div className="form-group">
                                             <label htmlFor="email">Correo Electrónico *</label>
