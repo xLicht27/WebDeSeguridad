@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { client, urlFor } from '../sanityClient'
+import { obtenerNoticias } from '../ghostClient' // <--- NUEVO IMPORT
 import { Link } from 'react-router-dom'
 import '../css/shared.css'
 import '../css/index.css'
@@ -9,26 +9,12 @@ function Noticias() {
     const [cargando, setCargando] = useState(true)
 
     useEffect(() => {
-        const query = `*[_type == "noticia"] | order(fecha desc) {
-            titulo,
-            slug,
-            image,
-            fecha,
-            resumen
-        }`
-
-        client.fetch(query)
-            .then(data => {
-                setNoticias(data)
-                setCargando(false)
-            })
-            .catch(err => {
-                console.error('Error al cargar noticias:', err)
-                setCargando(false)
-            })
+        // Llamada simple a nuestra nueva función de Ghost
+        obtenerNoticias().then(posts => {
+            setNoticias(posts);
+            setCargando(false);
+        });
     }, [])
-
-
 
     return (
         <>
@@ -39,29 +25,42 @@ function Noticias() {
                 </div>
             </section>
 
-
             <section className="section">
                 <div className="container">
                     <div className="news-grid">
                         {cargando && <p style={{ padding: '2rem' }}>Cargando noticias...</p>}
                         {!cargando && noticias.length === 0 && <p style={{ padding: '2rem' }}>No hay noticias publicadas aún.</p>}
+
                         {noticias.map(noticia => (
-                            <div className="news-card" key={noticia.slug.current}>
-                                {noticia.image && (
+                            // Ghost usar 'slug' directo en vez de 'slug.current'
+                            <div className="news-card" key={noticia.slug}>
+                                {noticia.feature_image && (
                                     <img
-                                        src={urlFor(noticia.image).width(400).url()}
-                                        alt={noticia.titulo}
+                                        src={noticia.feature_image} // Ghost devuelve la imagen lista
+                                        alt={noticia.title}         // Ghost usa 'title' en vez de 'titulo'
                                     />
                                 )}
                                 <div className="news-card-body">
                                     <p className="news-date">
-                                        {new Date(noticia.fecha).toLocaleDateString('es-PE', {
+                                        {new Date(noticia.published_at).toLocaleDateString('es-PE', {
                                             year: 'numeric', month: 'long', day: 'numeric'
                                         })}
                                     </p>
-                                    <h3>{noticia.titulo}</h3>
-                                    <p>{noticia.resumen}</p>
-                                    <Link to={`/noticias/${noticia.slug.current}`} className='btn btn-primary'>
+                                    <h3 style={{ marginBottom: '10px' }}>{noticia.title}</h3>
+                                    <p style={{
+                                        display: '-webkit-box',
+                                        WebkitLineClamp: 3,
+                                        WebkitBoxOrient: 'vertical',
+                                        overflow: 'hidden',
+                                        textOverflow: 'ellipsis',
+                                        margin: '0 0 15px 0',
+                                        color: '#555',
+                                        lineHeight: '1.5',
+                                        textAlign: 'justify'
+                                    }}>
+                                        {noticia.custom_excerpt || noticia.excerpt || "Haz clic para leer la noticia principal y todos los detalles."}
+                                    </p>
+                                    <Link to={`/noticias/${noticia.slug}`} className='btn btn-primary'>
                                         Ver noticia
                                     </Link>
                                 </div>

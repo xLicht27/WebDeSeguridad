@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useParams, Link } from 'react-router-dom'
-import { client, urlFor } from '../sanityClient'
-import { PortableText } from '@portabletext/react'
+import { obtenerNoticiaPorSlug } from '../ghostClient' // <--- NUEVO IMPORT
 import '../css/shared.css'
 import '../css/index.css'
 
@@ -11,24 +10,10 @@ function NoticiaDetalle() {
     const [cargando, setCargando] = useState(true)
 
     useEffect(() => {
-        const query = `*[_type == "noticia" && slug.current == $slug][0] {
-            titulo,
-            autor,
-            fecha,
-            image,
-            resumen,
-            contenido
-        }`
-
-        client.fetch(query, { slug })
-            .then(data => {
-                setNoticia(data)
-                setCargando(false)
-            })
-            .catch(err => {
-                console.error('Error al cargar la noticia:', err)
-                setCargando(false)
-            })
+        obtenerNoticiaPorSlug(slug).then(post => {
+            setNoticia(post);
+            setCargando(false);
+        });
     }, [slug])
 
     if (cargando) return (
@@ -48,60 +33,59 @@ function NoticiaDetalle() {
 
     return (
         <>
-            <section className="page-hero">
-                <div className="container">
-                    <h1>{noticia.titulo}</h1>
-                    <p>{noticia.resumen}</p>
-                </div>
-            </section>
+            {/* Opcional: una franja oscura arriba si el diseño lo requiere para el menú */}
+            <div style={{ backgroundColor: '#111', height: '100px', width: '100%' }}></div>
 
-            <section className="section">
+            <section className="section" style={{ padding: '4rem 0', backgroundColor: '#fff' }}>
                 <div className="container" style={{ maxWidth: '800px', margin: '0 auto' }}>
 
-                    {/* Imagen principal */}
-                    {noticia.image && (
-                        <img
-                            src={urlFor(noticia.image).width(800).url()}
-                            alt={noticia.titulo}
-                            style={{
-                                width: '100%',
-                                borderRadius: '8px',
-                                marginBottom: '2rem',
-                                objectFit: 'cover',
-                                maxHeight: '450px'
-                            }}
-                        />
+                    {/* 1. Imagen principal arriba */}
+                    {noticia.feature_image && (
+                        <div style={{ marginBottom: '2rem' }}>
+                            <img
+                                src={noticia.feature_image}
+                                alt={noticia.title}
+                                style={{
+                                    width: '100%',
+                                    borderRadius: '8px',
+                                    objectFit: 'cover',
+                                    maxHeight: '450px'
+                                }}
+                            />
+                        </div>
                     )}
 
-                    {/* Meta info */}
-                    <div style={{
-                        display: 'flex',
-                        gap: '2rem',
-                        marginBottom: '2rem',
-                        paddingBottom: '1rem',
-                        borderBottom: '1px solid #e0d08a'
-                    }}>
-                        {noticia.autor && (
-                            <span>✦ <strong>Autor:</strong> {noticia.autor}</span>
-                        )}
-                        {noticia.fecha && (
-                            <span>🗓 {new Date(noticia.fecha).toLocaleDateString('es-PE', {
-                                year: 'numeric', month: 'long', day: 'numeric'
-                            })}</span>
-                        )}
-                    </div>
+                    {/* 2. Título principal abajo de la imagen */}
+                    <h1 style={{ color: '#000', fontSize: '3rem', fontWeight: '800', marginBottom: '1rem', lineHeight: '1.2' }}>
+                        {noticia.title}
+                    </h1>
 
-                    {/* Contenido del artículo */}
-                    <div style={{ lineHeight: '1.8', fontSize: '1.05rem' }}>
-                        {noticia.contenido
-                            ? <PortableText value={noticia.contenido} />
-                            : <p>Esta noticia no tiene contenido detallado aún.</p>
-                        }
-                    </div>
+                    {/* 3. Extracto (si existe) */}
+                    {noticia.custom_excerpt && (
+                        <p style={{ fontSize: '1.3rem', color: '#555', marginBottom: '1.5rem', fontStyle: 'italic' }}>
+                            {noticia.custom_excerpt}
+                        </p>
+                    )}
 
-                    {/* Botón volver */}
-                    <div style={{ marginTop: '3rem' }}>
-                        <Link to="/noticias" className="btn btn-primary">
+                    {/* 4. Fecha */}
+                    {noticia.published_at && (
+                        <div style={{ marginBottom: '2rem', paddingBottom: '1rem', borderBottom: '1px solid #ddd' }}>
+                            <span style={{ color: '#666', fontSize: '0.9rem' }}>
+                                🗓 Publicado el {new Date(noticia.published_at).toLocaleDateString('es-PE', {
+                                    year: 'numeric', month: 'long', day: 'numeric'
+                                })}
+                            </span>
+                        </div>
+                    )}
+
+                    {/* 5. Contenido / Descripción de la noticia (Arreglado el color blanco) */}
+                    <div
+                        style={{ lineHeight: '1.8', fontSize: '1.15rem', color: '#222' }}
+                        dangerouslySetInnerHTML={{ __html: noticia.html }}
+                    />
+
+                    <div style={{ marginTop: '4rem' }}>
+                        <Link to="/noticias" className="btn btn-primary" style={{ backgroundColor: '#cbb23b', color: '#000', border: 'none', padding: '10px 20px', fontWeight: 'bold' }}>
                             ← Volver a Noticias
                         </Link>
                     </div>
