@@ -1,5 +1,5 @@
 // frontend/src/App.jsx
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { HashRouter as Router, Routes, Route } from 'react-router-dom';
 import ScrollToTop from './components/ScrollToTop';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
@@ -18,7 +18,7 @@ import NoticiaDetalle from './pages/NoticiaDetalle';
 
 function App() {
   return (
-    <BrowserRouter>
+    <HashRouter>
       <ScrollToTop />
       <div className="app-container"></div>
       <Navbar />
@@ -37,7 +37,7 @@ function App() {
         <Route path="/noticias/:slug" element={<NoticiaDetalle />} />
       </Routes>
       <Footer />
-    </BrowserRouter>
+    </HashRouter>
   )
 }
 
