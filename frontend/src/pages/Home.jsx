@@ -7,6 +7,7 @@ function Home() {
     const [carrusel, setCarrusel] = useState([]);
     const [servicios, setServicios] = useState([]);
     const [clientes, setClientes] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -22,6 +23,8 @@ function Home() {
                 setClientes(resClientes.data);
             } catch (error) {
                 console.error("Error cargando datos desde la DB:", error);
+            } finally {
+                setIsLoading(false);
             }
         };
         fetchData();
@@ -70,6 +73,14 @@ function Home() {
             observer.disconnect();
         };
     }, [servicios, clientes]); // Se vuelve a ejecutar cuando los elementos dinámicos cargan
+
+    if (isLoading) {
+        return (
+            <div className="global-loader">
+                <img src="/img/logo.png" alt="PRESER SEGURIDAD" className="loader-logo" />
+            </div>
+        );
+    }
 
     return (
         <>
