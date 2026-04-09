@@ -11,7 +11,7 @@ app.use(helmet());
 
 //middlewares
 const corsOptions = {
-    origin: [process.env.FRONTEND_URL, 'http://localhost:5173'],
+    origin: [process.env.FRONTEND_URL, 'https://web-de-seguridad.vercel.app/', /\.vercel\.app$/],
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
     credentials: true,
 };
