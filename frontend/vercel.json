@@ -2,7 +2,7 @@
   "rewrites": [
     {
       "source": "/ghost-proxy/:path*",
-      "destination": "http://3.210.112.141/api/v5/:path*"
+      "destination": "http://3.210.112.141/ghost/api/:path*"
     },
     {
       "source": "/(.*)",

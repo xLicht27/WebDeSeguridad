@@ -8,7 +8,7 @@ const CONTENT_KEY = import.meta.env.VITE_GHOST_CONTENT_API_KEY;
 // el navegador bloquea las conexiones directas a IPs de AWS (http) por seguridad (Mixed Content).
 // Vercel ahora hará el puente secreto por nosotros usando "/ghost-proxy".
 const isSecure = window.location.protocol === 'https:';
-const baseUrl = isSecure ? '/ghost-proxy' : `${GHOST_URL}/ghost/api/v5`;
+const baseUrl = isSecure ? '/ghost-proxy' : `${GHOST_URL}/ghost/api`;
 
 export async function obtenerNoticias() {
     try {
