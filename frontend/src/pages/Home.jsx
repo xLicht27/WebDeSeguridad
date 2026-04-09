@@ -4,8 +4,35 @@ import '../css/index.css'
 import '../css/shared.css'
 
 function Home() {
+    const [carrusel, setCarrusel] = useState([]);
+    const [servicios, setServicios] = useState([]);
+    const [clientes, setClientes] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+                const [resCarrusel, resServicios, resClientes] = await Promise.all([
+                    axios.get(`${apiUrl}/api/carrusel`),
+                    axios.get(`${apiUrl}/api/servicios`),
+                    axios.get(`${apiUrl}/api/clientes`)
+                ]);
+                setCarrusel(resCarrusel.data);
+                setServicios(resServicios.data);
+                setClientes(resClientes.data);
+            } catch (error) {
+                console.error("Error cargando datos desde la DB:", error);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+        fetchData();
+    }, []);
+
+    useEffect(() => {
+        if (carrusel.length === 0) return;
+
         const slides = document.querySelectorAll('.hero-slide');
         const dots = document.querySelectorAll('.hero-dot');
         let intervalId;
@@ -26,6 +53,12 @@ function Home() {
             intervalId = setInterval(() => goToSlide(current + 1), 5000);
         }
 
+        return () => {
+            if (intervalId) clearInterval(intervalId);
+        };
+    }, [carrusel]);
+
+    useEffect(() => {
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -37,51 +70,53 @@ function Home() {
         document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
 
         return () => {
-            if (intervalId) clearInterval(intervalId);
             observer.disconnect();
         };
-    }, []);
+    }, [servicios, clientes]); // Se vuelve a ejecutar cuando los elementos dinámicos cargan
+
+    if (isLoading) {
+        return (
+            <div className="global-loader">
+                <img src="/img/logo.png" alt="PRESER SEGURIDAD" className="loader-logo" />
+            </div>
+        );
+    }
 
     return (
         <>
             {/* ═══ Hero Carousel ═══ */}
             <section className="hero" id="hero">
-                <div className="hero-slide active">
-                    <img src="img/hero/hero1.png" alt="Custodia de Mercadería" />
-                    <div className="hero-overlay">
-                        <div className="hero-content">
-                            <h1>Protección y Custodia de Mercadería</h1>
-                            <p>Resguardo policial con los más altos estándares de seguridad para su carga en tránsito a cualquier destino del Perú.</p>
-                            <a href="./contacto" className="btn btn-primary">Contáctenos</a>
+                {carrusel.length > 0 ? carrusel.map((slide, index) => (
+                    <div key={slide.id} className={`hero-slide ${index === 0 ? 'active' : ''}`}>
+                        <img src={slide.image_url} alt={slide.title} />
+                        <div className="hero-overlay">
+                            <div className="hero-content">
+                                <h1>{slide.title}</h1>
+                                <p>{slide.subtitle}</p>
+                                <a href={slide.button_link} className="btn btn-primary">{slide.button_text}</a>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div className="hero-slide">
-                    <img src="img/hero/hero2.png" alt="Seguridad en Instalaciones" />
-                    <div className="hero-overlay">
-                        <div className="hero-content">
-                            <h1>Seguridad en Instalaciones</h1>
-                            <p>Protegemos empresas, edificios, plantas industriales y almacenes con personal PNP® altamente calificado.</p>
-                            <a href="./contacto" className="btn btn-primary">Contáctenos</a>
+                )) : (
+                    <div className="hero-slide active">
+                        <img src="img/hero/hero1.png" alt="Cargando..." />
+                        <div className="hero-overlay">
+                            <div className="hero-content">
+                                <h1>Cargando...</h1>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div className="hero-slide">
-                    <img src="img/hero/hero3.png" alt="Protección Corporativa" />
-                    <div className="hero-overlay">
-                        <div className="hero-content">
-                            <h1>Protección Corporativa VIP</h1>
-                            <p>Seguridad especializada para ejecutivos, funcionarios y personalidades con equipo de alto rendimiento.</p>
-                            <a href="./contacto" className="btn btn-primary">Contáctenos</a>
-                        </div>
+                )}
+
+                {carrusel.length > 0 && (
+                    <div className="hero-dots">
+                        {carrusel.map((slide, index) => (
+                            <button key={slide.id} className={`hero-dot ${index === 0 ? 'active' : ''}`} aria-label={`Slide ${index + 1}`}></button>
+                        ))}
                     </div>
-                </div>
-                <div className="hero-dots">
-                    <button className="hero-dot active" aria-label="Slide 1"></button>
-                    <button className="hero-dot" aria-label="Slide 2"></button>
-                    <button className="hero-dot" aria-label="Slide 3"></button>
-                </div>
+                )}
             </section>
+
             {/* ═══ Intro Band ═══ */}
             <section className="intro-band">
                 <div className="container">
@@ -90,6 +125,7 @@ function Home() {
                     </p>
                 </div>
             </section>
+
             {/* ═══ Services Overview ═══ */}
             <section className="section section-light-gold" id="servicios">
                 <div className="container">
@@ -98,51 +134,23 @@ function Home() {
                         <p>Soluciones integrales de seguridad adaptadas a las necesidades de cada cliente</p>
                     </div>
                     <div className="services-grid">
-                        <a href="servicios/Custodia" className="service-card fade-in">
-                            <div className="icon">✦</div>
-                            <h3>Custodia de Mercadería</h3>
-                            <p>Resguardo policial en vehículos o personal PNP® en cabina, escolta a cualquier destino del Perú.</p>
-                            <span className="link">Ver más →</span>
-                        </a>
-                        <a href="servicios/Instalaciones" className="service-card fade-in">
-                            <div className="icon">✦</div>
-                            <h3>Seguridad en Instalaciones</h3>
-                            <p>Protección para empresas, edificios, oficinas, plantas industriales, almacenes y predios.</p>
-                            <span className="link">Ver más →</span>
-                        </a>
-                        <a href="servicios/Investigacion" className="service-card fade-in">
-                            <div className="icon">✦</div>
-                            <h3>Servicios de Investigación</h3>
-                            <p>Solución de problemas como sabotajes, robos, hurtos sistemáticos y malos manejos administrativos.</p>
-                            <span className="link">Ver más →</span>
-                        </a>
-                        <a href="servicios/Traslado" className="service-card fades-in">
-                            <div className="icon">✦</div>
-                            <h3>Traslado y Protección Corporativa</h3>
-                            <p>Personal PNP® calificado para actuar ante cualquier evento de riesgo durante el traslado de personas.</p>
-                            <span className="link">Ver más →</span>
-                        </a>
-                        <a href="servicios/ProteccionP" className="service-card fade-in">
-                            <div className="icon">✦</div>
-                            <h3>Protección a Personalidades</h3>
-                            <p>Seguridad para personas muy importantes, ejecutivos, funcionarios y otros cargos de alto perfil.</p>
-                            <span className="link">Ver más →</span>
-                        </a>
-                        <a href="servicios/Eventos" className="service-card fade-in">
-                            <div className="icon">✦</div>
-                            <h3>Seguridad para Eventos</h3>
-                            <p>Cobertura de seguridad para eventos sociales, deportivos, conferencias, desfiles y reuniones.</p>
-                            <span className="link">Ver más →</span>
-                        </a>
-                        <a href="servicios/Verificaciones" className="service-card fade-in" style={{ gridColumn: 'span 1' }}>
-                            <div className="icon">✦</div>
-                            <h3>Servicio de Verificaciones</h3>
-                            <p>Verificación de información de personas, estudios socio-económicos, domiciliarios y laborales.</p>
-                            <span className="link">Ver más →</span>
-                        </a>
+                        {servicios.length > 0 ? servicios.map((servicio, index) => (
+                            <a
+                                href={`servicios/${servicio.slug}`}
+                                key={servicio.id}
+                                className="service-card fade-in"
+                                style={index === servicios.length - 1 && servicios.length % 2 !== 0 ? { gridColumn: 'span 1' } : {}}
+                            >
+                                <div className="icon">{servicio.icon || '✦'}</div>
+                                <h3>{servicio.title}</h3>
+                                <p>{servicio.short_description}</p>
+                                <span className="link">Ver más →</span>
+                            </a>
+                        )) : <p className="fade-in">Cargando servicios...</p>}
                     </div>
                 </div>
             </section>
+
             {/* ═══ Worker Quality ═══ */}
             <section className="section" id="equipo">
                 <div className="container">
@@ -160,7 +168,7 @@ function Home() {
                                 <li>Supervisión permanente desde nuestro Centro de Control</li>
                                 <li>Vehículos con GPS satelital monitoreados 24/7</li>
                             </ul>
-                            <a href="contacto.html" className="btn btn-primary">Solicitar Servicio</a>
+                            <a href="contacto" className="btn btn-primary">Solicitar Servicio</a>
                         </div>
                         <div className="worker-image">
                             <img src="/img/workers.png" alt="Equipo de seguridad PRESER" />
@@ -168,6 +176,7 @@ function Home() {
                     </div>
                 </div>
             </section>
+
             {/* ═══ Clients ═══ */}
             <section className="section section-light-gold" id="clientes">
                 <div className="container">
@@ -177,37 +186,30 @@ function Home() {
                     </div>
                 </div>
                 <div className="marquee-wrapper">
-                    <div class="marquee-track">
-                        <div className="marquee-logo"><img src="img/clientes/universidad-de-lima.svg" alt="Universidad de Lima" /></div>
-                        <div className="marquee-logo"><img src="img/clientes/universidad-cientifica.png" alt="Universidad Científica del Sur" /></div>
-                        <div className="marquee-logo"><img src="img/clientes/colegio-dante-alighieri.png" alt="Colegio Dante Alighieri" /></div>
-                        <div className="marquee-logo"><img src="img/clientes/divemotor.png" alt="Divemotor" /></div>
-                        <div className="marquee-logo"><img src="img/clientes/mercedes-benz.png" alt="Mercedes-Benz" /></div>
-                        <div className="marquee-logo"><img src="img/clientes/dodge.png" alt="Dodge" /></div>
-                        <div className="marquee-logo"><img src="img/clientes/cartavio-rum.png" alt="Cartavio Rum Company" /></div>
-                        <div className="marquee-logo"><img src="img/clientes/aceros-arequipa.png" alt="Aceros Arequipa" /></div>
-                        <div className="marquee-logo"><img src="img/clientes/colegio-raimondi.svg" alt="Colegio Italiano Antonio Raimondi" /></div>
-                        <div className="marquee-logo"><img src="img/clientes/andesmotor.png" alt="Andesmotor" /></div>
-                        {/*- Duplicated for seamless loop -->*/}
-                        <div className="marquee-logo"><img src="img/clientes/universidad-de-lima.svg" alt="Universidad de Lima" /></div>
-                        <div className="marquee-logo"><img src="img/clientes/universidad-cientifica.png" alt="Universidad Científica del Sur" /></div>
-                        <div className="marquee-logo"><img src="img/clientes/colegio-dante-alighieri.png" alt="Colegio Dante Alighieri" /></div>
-                        <div className="marquee-logo"><img src="img/clientes/divemotor.png" alt="Divemotor" /></div>
-                        <div className="marquee-logo"><img src="img/clientes/mercedes-benz.png" alt="Mercedes-Benz" /></div>
-                        <div className="marquee-logo"><img src="img/clientes/dodge.png" alt="Dodge" /></div>
-                        <div className="marquee-logo"><img src="img/clientes/cartavio-rum.png" alt="Cartavio Rum Company" /></div>
-                        <div className="marquee-logo"><img src="img/clientes/aceros-arequipa.png" alt="Aceros Arequipa" /></div>
-                        <div className="marquee-logo"><img src="img/clientes/colegio-raimondi.svg" alt="Colegio Italiano Antonio Raimondi" /></div>
-                        <div className="marquee-logo"><img src="img/clientes/andesmotor.png" alt="Andesmotor" /></div>
+                    <div className="marquee-track">
+                        {clientes.length > 0 ? (
+                            <>
+                                {clientes.map(cliente => (
+                                    <div key={cliente.id} className="marquee-logo"><img src={cliente.logo_url} alt={cliente.name} /></div>
+                                ))}
+                                {/* Duplicated for seamless loop */}
+                                {clientes.map(cliente => (
+                                    <div key={`dup-${cliente.id}`} className="marquee-logo"><img src={cliente.logo_url} alt={cliente.name} /></div>
+                                ))}
+                            </>
+                        ) : (
+                            <p></p>
+                        )}
                     </div>
                 </div>
             </section>
+
             {/* ═══ CTA ═══ */}
             <section className="cta-section">
                 <div className="container fade-in">
                     <h2>¿Necesita un Servicio de Seguridad Confiable?</h2>
                     <p>Somos la empresa legalmente constituida con todas las autorizaciones vigentes para brindarle la protección que su empresa merece.</p>
-                    <a href="contacto.html" className="btn btn-primary" style={{ position: 'relative' }}>Contáctenos Ahora</a>
+                    <a href="contacto" className="btn btn-primary" style={{ position: 'relative' }}>Contáctenos Ahora</a>
                 </div>
             </section>
         </>
