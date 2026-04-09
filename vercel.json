@@ -6,11 +6,7 @@
     },
     {
       "source": "/api/:path*",
-      "destination": "https://TU-URL-DE-RENDER.onrender.com/api/:path*"
-    },
-    {
-      "source": "/(.*)",
-      "destination": "/index.html"
+      "destination": "https://webdeseguridad.onrender.com/api/:path*"
     }
   ]
 }
