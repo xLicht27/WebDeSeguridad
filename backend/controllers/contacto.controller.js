@@ -3,7 +3,9 @@ const nodemailer = require('nodemailer');
 const { sanitize } = require('../middlewares/sanitize');
 
 const transporter = nodemailer.createTransport({
-    service: 'gmail',
+    host: process.env.EMAIL_HOST,
+    port: process.env.EMAIL_PORT,
+    secure: true,
     auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS,
@@ -16,14 +18,14 @@ const transporter = nodemailer.createTransport({
  */
 const postContacto = async (req, res) => {
     // 1. Sanitizar entradas para prevenir XSS
-    const full_name         = sanitize(req.body.full_name);
-    const email             = sanitize(req.body.email);
-    const phone             = sanitize(req.body.phone);
-    const company           = sanitize(req.body.company);
-    const ruc               = sanitize(req.body.ruc);
-    const position          = sanitize(req.body.position);
+    const full_name = sanitize(req.body.full_name);
+    const email = sanitize(req.body.email);
+    const phone = sanitize(req.body.phone);
+    const company = sanitize(req.body.company);
+    const ruc = sanitize(req.body.ruc);
+    const position = sanitize(req.body.position);
     const service_interested = sanitize(req.body.service_interested);
-    const message           = sanitize(req.body.message);
+    const message = sanitize(req.body.message);
 
     // 2. Validaciones básicas
     if (!full_name || !email || !message) {
