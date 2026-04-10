@@ -4,7 +4,7 @@ const CONTENT_KEY = import.meta.env.VITE_GHOST_CONTENT_API_KEY;
 
 
 const isSecure = window.location.protocol === 'https:';
-const baseUrl = isSecure ? '/ghost-proxy/v4' : `${GHOST_URL}/ghost/api/v4`;
+const baseUrl = isSecure ? '/ghost-proxy/ghost/api/v4' : `${GHOST_URL}/ghost/api/v4`;
 
 export async function obtenerNoticias() {
     try {
