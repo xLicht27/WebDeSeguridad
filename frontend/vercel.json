@@ -9,7 +9,7 @@
       "destination": "https://webdeseguridad.onrender.com/api/$1"
     },
     {
-      "source": "/((?!ghost-proxy|api).* )",
+      "source": "/(.*)",
       "destination": "/index.html"
     }
   ]
