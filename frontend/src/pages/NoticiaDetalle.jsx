@@ -56,7 +56,15 @@ function NoticiaDetalle() {
                     )}
 
                     {/* 2. Título principal abajo de la imagen */}
-                    <h1 style={{ color: '#000', fontSize: '3rem', fontWeight: '800', marginBottom: '1rem', lineHeight: '1.2' }}>
+                    <h1 style={{
+                        color: '#000',
+                        fontSize: '3rem',
+                        fontWeight: '800',
+                        marginBottom: '1rem',
+                        lineHeight: '1.2',
+                        wordBreak: 'break-word',
+                        overflowWrap: 'anywhere'
+                    }}>
                         {noticia.title}
                     </h1>
 
@@ -80,7 +88,13 @@ function NoticiaDetalle() {
 
                     {/* 5. Contenido / Descripción de la noticia (Arreglado el color blanco) */}
                     <div
-                        style={{ lineHeight: '1.8', fontSize: '1.15rem', color: '#222' }}
+                        style={{
+                            lineHeight: '1.8',
+                            fontSize: '1.15rem',
+                            color: '#222',
+                            wordBreak: 'break-word',
+                            overflowWrap: 'anywhere'
+                        }}
                         dangerouslySetInnerHTML={{ __html: noticia.html }}
                     />
 

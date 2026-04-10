@@ -1,10 +1,11 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 
 export default function Navbar() {
     const [scrolled, setScrolled] = useState(false);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const navRef = useRef(null);
 
     // Lógica del scroll al estilo React
     useEffect(() => {
@@ -15,6 +16,31 @@ export default function Navbar() {
         return () => window.removeEventListener('scroll', handleScroll); // Se limpia al salir
     }, []);
 
+    // Lógica para cerrar el menú al hacer click fuera de la navbar
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (navRef.current && !navRef.current.contains(event.target)) {
+                setIsMenuOpen(false);
+                setIsDropdownOpen(false);
+            }
+        };
+
+        if (isMenuOpen || isDropdownOpen) {
+            document.addEventListener('mousedown', handleClickOutside);
+            document.addEventListener('touchstart', handleClickOutside);
+        }
+
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+            document.removeEventListener('touchstart', handleClickOutside);
+        };
+    }, [isMenuOpen, isDropdownOpen]);
+
+    const closeMenus = () => {
+        setIsMenuOpen(false);
+        setIsDropdownOpen(false);
+    };
+
     const toggleDropdown = (e) => {
         if (window.innerWidth <= 768) {
             e.preventDefault();
@@ -23,7 +49,7 @@ export default function Navbar() {
     };
 
     return (
-        <nav className={`navbar ${scrolled ? 'scrolled' : ''}`}>
+        <nav ref={navRef} className={`navbar ${scrolled ? 'scrolled' : ''}`}>
             <div className="container">
                 {/* LOGO */}
                 <Link to="/" className="navbar-brand">
@@ -33,25 +59,25 @@ export default function Navbar() {
 
                 {/* ENLACES */}
                 <div className={`nav-links ${isMenuOpen ? 'open' : ''}`}>
-                    <Link to="/">Inicio</Link>
-                    <Link to="/nosotros">Nosotros</Link>
+                    <Link to="/" onClick={closeMenus}>Inicio</Link>
+                    <Link to="/nosotros" onClick={closeMenus}>Nosotros</Link>
 
                     {/* MENÚ DESPLEGABLE */}
                     <div className={`nav-dropdown ${isDropdownOpen ? 'open' : ''}`}>
                         <a href="#" onClick={toggleDropdown}>Servicios</a>
                         <div className="dropdown-menu">
-                            <Link to="/servicios/custodia">Custodia de Mercadería en Tránsito</Link>
-                            <Link to="/servicios/instalaciones">Seguridad en Instalaciones</Link>
-                            <Link to="/servicios/investigacion">Servicios de Investigación</Link>
-                            <Link to="/servicios/traslado">Traslado y Protección Corporativa</Link>
-                            <Link to="/servicios/proteccionP">Protección a Personalidades</Link>
-                            <Link to="/servicios/eventos">Seguridad para Eventos</Link>
-                            <Link to="/servicios/verificaciones">Servicio de Verificaciones</Link>
+                            <Link to="/servicios/custodia" onClick={closeMenus}>Custodia de Mercadería en Tránsito</Link>
+                            <Link to="/servicios/instalaciones" onClick={closeMenus}>Seguridad en Instalaciones</Link>
+                            <Link to="/servicios/investigacion" onClick={closeMenus}>Servicios de Investigación</Link>
+                            <Link to="/servicios/traslado" onClick={closeMenus}>Traslado y Protección Corporativa</Link>
+                            <Link to="/servicios/proteccionP" onClick={closeMenus}>Protección a Personalidades</Link>
+                            <Link to="/servicios/eventos" onClick={closeMenus}>Seguridad para Eventos</Link>
+                            <Link to="/servicios/verificaciones" onClick={closeMenus}>Servicio de Verificaciones</Link>
                         </div>
                     </div>
 
-                    <Link to="/noticias">Noticias</Link>
-                    <Link to="/contacto">Contáctanos</Link>
+                    <Link to="/noticias" onClick={closeMenus}>Noticias</Link>
+                    <Link to="/contacto" onClick={closeMenus}>Contáctanos</Link>
                 </div>
 
                 {/* BOTÓN MÓVIL (Hamburguesa) */}

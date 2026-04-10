@@ -46,7 +46,7 @@ function Noticias() {
                                             year: 'numeric', month: 'long', day: 'numeric'
                                         })}
                                     </p>
-                                    <h3 style={{ marginBottom: '10px' }}>{noticia.title}</h3>
+                                    <h3 style={{ marginBottom: '10px', wordBreak: 'break-word', overflowWrap: 'anywhere' }}>{noticia.title}</h3>
                                     <p style={{
                                         display: '-webkit-box',
                                         WebkitLineClamp: 3,
@@ -56,7 +56,9 @@ function Noticias() {
                                         margin: '0 0 15px 0',
                                         color: '#555',
                                         lineHeight: '1.5',
-                                        textAlign: 'justify'
+                                        textAlign: 'justify',
+                                        wordBreak: 'break-word',
+                                        overflowWrap: 'anywhere'
                                     }}>
                                         {noticia.custom_excerpt || noticia.excerpt || "Haz clic para leer la noticia principal y todos los detalles."}
                                     </p>
