@@ -23,6 +23,14 @@
     object-fit: cover;
 }
 
+/* Ajuste para que se vean las caras de los trabajadores en PC (Hero 2 y 3) */
+@media (min-width: 1024px) {
+    .hero-slide:nth-child(2) img,
+    .hero-slide:nth-child(3) img {
+        object-position: top center;
+    }
+}
+
 .hero-overlay {
     position: absolute;
     inset: 0;
