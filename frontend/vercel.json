@@ -1,15 +1,15 @@
 {
   "rewrites": [
     {
-      "source": "/ghost-proxy/:path*",
-      "destination": "http://3.210.112.141/ghost/api/:path*"
+      "source": "/ghost-proxy/(.*)",
+      "destination": "http://3.210.112.141/ghost/api/$1"
     },
     {
-      "source": "/api/:path*",
-      "destination": "https://webdeseguridad.onrender.com/api/:path*"
+      "source": "/api/(.*)",
+      "destination": "https://webdeseguridad.onrender.com/api/$1"
     },
     {
-      "source": "/(.*)",
+      "source": "/((?!ghost-proxy|api).* )",
       "destination": "/index.html"
     }
   ]
