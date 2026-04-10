@@ -1,14 +1,10 @@
-// frontend/src/ghostClient.js
 
-// Usamos las claves de entorno que acabas de configurar
 const GHOST_URL = import.meta.env.VITE_GHOST_URL;
 const CONTENT_KEY = import.meta.env.VITE_GHOST_CONTENT_API_KEY;
 
-// Truco de magia: Si la página web está en internet con candadito verde (https), 
-// el navegador bloquea las conexiones directas a IPs de AWS (http) por seguridad (Mixed Content).
-// Vercel ahora hará el puente secreto por nosotros usando "/ghost-proxy".
+
 const isSecure = window.location.protocol === 'https:';
-const baseUrl = isSecure ? '/ghost-proxy' : `${GHOST_URL}/ghost/api`;
+const baseUrl = isSecure ? '/ghost-proxy/v4' : `${GHOST_URL}/ghost/api/v4`;
 
 export async function obtenerNoticias() {
     try {
