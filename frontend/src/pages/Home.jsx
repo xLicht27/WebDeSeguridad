@@ -171,7 +171,7 @@ function Home() {
                             <a href="contacto" className="btn btn-primary">Solicitar Servicio</a>
                         </div>
                         <div className="worker-image">
-                            <img src="/img/workers.png" alt="Equipo de seguridad PRESER" />
+                            <img src="/img/workers.jpeg" alt="Equipo de seguridad PRESER" />
                         </div>
                     </div>
                 </div>
