@@ -99,7 +99,7 @@ function Home() {
                     </div>
                 )) : (
                     <div className="hero-slide active">
-                        <img src="img/hero/hero1.png" alt="Cargando..." />
+                        <img src="img/hero/hero1.jpeg" alt="Cargando..." />
                         <div className="hero-overlay">
                             <div className="hero-content">
                                 <h1>Cargando...</h1>
