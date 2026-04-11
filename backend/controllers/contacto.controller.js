@@ -62,7 +62,7 @@ const postContacto = async (req, res) => {
 
         // 4. Enviar notificación por correo
         const mailOptions = {
-            from: process.env.EMAIL_USER,
+            from: "operaciones@preserseguridad.com", 
             to: process.env.EMAIL_DESTINO,
             subject: `NUEVA SOLICITUD WEB: ${company || full_name}`,
             text: `Tienes un nuevo formulario de contacto de la página web de PRESER:
