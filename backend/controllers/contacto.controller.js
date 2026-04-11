@@ -1,21 +1,13 @@
 const pool = require('../db');
-const nodemailer = require('nodemailer');
+const { Resend } = require('resend');
 const { sanitize } = require('../middlewares/sanitize');
 
-const transporter = nodemailer.createTransport({
-    host: process.env.EMAIL_HOST,
-    port: parseInt(process.env.EMAIL_PORT),
-    secure: true,
-    auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS,
-    },
-    //connectionTimeout: 10000,
-});
+// Inicializamos Resend con la API Key que pusiste en EMAIL_PASS
+const resend = new Resend(process.env.EMAIL_PASS);
 
 /**
  * POST /api/contacto
- * Guarda el mensaje en la BD y envía una notificación por email.
+ * Guarda el mensaje en la BD y envía una notificación por email via Resend API (HTTPS).
  */
 const postContacto = async (req, res) => {
     // 1. Sanitizar entradas para prevenir XSS
@@ -41,7 +33,7 @@ const postContacto = async (req, res) => {
     if (ruc) {
         const rucRegex = /^(10|15|17|20)\d{9}$/;
         if (!rucRegex.test(ruc)) {
-            return res.status(400).json({ error: 'El RUC no tiene un formato válido (debe tener 11 dígitos numéricos válidos).' });
+            return res.status(400).json({ error: 'El RUC no tiene un formato válido.' });
         }
     }
 
@@ -60,8 +52,8 @@ const postContacto = async (req, res) => {
             [full_name, email, phone, company, ruc, position, service_interested, message]
         );
 
-        // 4. Enviar notificación por correo
-        const mailOptions = {
+        // 4. Enviar notificación por correo usando Resend API (Evita bloqueo de puertos en Render)
+        const { data, error } = await resend.emails.send({
             from: "operaciones@preserseguridad.com", 
             to: process.env.EMAIL_DESTINO,
             subject: `NUEVA SOLICITUD WEB: ${company || full_name}`,
@@ -81,10 +73,13 @@ const postContacto = async (req, res) => {
   Servicio solicitado: ${service_interested || 'No especificado'}
   Mensaje:
   ${message}
-            `,
-        };
+            `
+        });
 
-        await transporter.sendMail(mailOptions);
+        if (error) {
+            console.error('Error enviando con Resend:', error);
+            // Seguimos adelante porque ya se guardó en BD
+        }
 
         res.status(201).json({ ok: true, id: result.rows[0].id });
     } catch (err) {
