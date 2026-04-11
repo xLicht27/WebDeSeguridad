@@ -5,12 +5,12 @@ const { sanitize } = require('../middlewares/sanitize');
 const transporter = nodemailer.createTransport({
     host: process.env.EMAIL_HOST,
     port: parseInt(process.env.EMAIL_PORT),
-    secure: false,
+    secure: true,
     auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS,
     },
-    connectionTimeout: 10000,
+    //connectionTimeout: 10000,
 });
 
 /**
