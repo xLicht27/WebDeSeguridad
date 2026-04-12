@@ -54,7 +54,7 @@ export default function Navbar() {
                 {/* LOGO */}
                 <Link to="/" className="navbar-brand">
                     <img src="/img/logo.png" alt="Preser Seguridad Logo" />
-                    <span>PRESER SEGURIDAD</span>
+                    <span>PRESER SEGURIDAD S.A.C.</span>
                 </Link>
 
                 {/* ENLACES */}
