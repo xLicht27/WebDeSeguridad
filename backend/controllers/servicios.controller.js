@@ -1,4 +1,5 @@
 const pool = require('../db');
+const myCache = require('../cache');
 
 /**
  * GET /api/servicios
@@ -6,9 +7,18 @@ const pool = require('../db');
  */
 const getServicios = async (req, res) => {
     try {
+        const cacheKey = 'servicios';
+        const cachedServicios = myCache.get(cacheKey);
+
+        if (cachedServicios) {
+            return res.json(cachedServicios);
+        }
+
         const result = await pool.query(
             'SELECT * FROM services WHERE is_active = true ORDER BY order_index ASC'
         );
+        
+        myCache.set(cacheKey, result.rows);
         res.json(result.rows);
     } catch (err) {
         console.error('Error en getServicios:', err);
@@ -23,6 +33,13 @@ const getServicios = async (req, res) => {
 const getServicioBySlug = async (req, res) => {
     try {
         const { slug } = req.params;
+        const cacheKey = `servicio_${slug}`;
+        const cachedServicio = myCache.get(cacheKey);
+
+        if (cachedServicio) {
+            return res.json(cachedServicio);
+        }
+
         const result = await pool.query(
             'SELECT * FROM services WHERE slug = $1 AND is_active = true',
             [slug]
@@ -32,6 +49,7 @@ const getServicioBySlug = async (req, res) => {
             return res.status(404).json({ error: 'Servicio no encontrado.' });
         }
 
+        myCache.set(cacheKey, result.rows[0]);
         res.json(result.rows[0]);
     } catch (err) {
         console.error('Error en getServicioBySlug:', err);

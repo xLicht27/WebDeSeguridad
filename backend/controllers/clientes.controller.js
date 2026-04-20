@@ -1,4 +1,5 @@
 const pool = require('../db');
+const myCache = require('../cache');
 
 /**
  * GET /api/clientes
@@ -6,9 +7,18 @@ const pool = require('../db');
  */
 const getClientes = async (req, res) => {
     try {
+        const cacheKey = 'clientes';
+        const cachedClientes = myCache.get(cacheKey);
+
+        if (cachedClientes) {
+            return res.json(cachedClientes);
+        }
+
         const result = await pool.query(
             'SELECT * FROM clients WHERE is_active = true ORDER BY order_index ASC'
         );
+        
+        myCache.set(cacheKey, result.rows);
         res.json(result.rows);
     } catch (err) {
         console.error('Error en getClientes:', err);
