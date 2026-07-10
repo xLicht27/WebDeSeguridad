@@ -10,11 +10,13 @@ import Noticias from './pages/Noticias';
 import Custodia from './pages/Servicios/Custodia';
 import Eventos from './pages/Servicios/Eventos';
 import Instalaciones from './pages/Servicios/Instalaciones';
-import Investigacion from './pages/Servicios/Investigacion'
+import Investigacion from './pages/Servicios/Investigacion';
 import ProteccionP from './pages/Servicios/ProteccionP';
 import Traslado from './pages/Servicios/Traslado';
 import Verificaciones from './pages/Servicios/Verificaciones';
 import NoticiaDetalle from './pages/NoticiaDetalle';
+import PoliticaPrivacidad from './pages/PoliticaPrivacidad';
+import TerminosCondiciones from './pages/TerminosCondiciones';
 
 function App() {
   return (
@@ -35,6 +37,8 @@ function App() {
         <Route path="/Servicios/verificaciones" element={<Verificaciones />} />
         <Route path="/noticias" element={<Noticias />} />
         <Route path="/noticias/:slug" element={<NoticiaDetalle />} />
+        <Route path="/politica-de-privacidad" element={<PoliticaPrivacidad />} />
+        <Route path="/terminos-condiciones" element={<TerminosCondiciones />} />
       </Routes>
       <Footer />
     </BrowserRouter>

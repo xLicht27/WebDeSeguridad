@@ -1,0 +1,88 @@
+/* ── Política de Privacidad ───────────────────── */
+.privacy-page {
+    background: linear-gradient(180deg, var(--gold-50) 0%, var(--white) 100%);
+    padding: 80px 0 100px;
+}
+
+.privacy-card {
+    max-width: 850px;
+    margin: 0 auto;
+    background: var(--white);
+    padding: 50px 60px;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    border: 1px solid var(--dark-100);
+}
+
+.privacy-card h2 {
+    color: var(--dark-900);
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin-top: 36px;
+    margin-bottom: 18px;
+    border-bottom: 2px solid var(--gold-400);
+    padding-bottom: 8px;
+    text-transform: uppercase;
+    font-family: var(--font-heading);
+}
+
+.privacy-card h2:first-of-type {
+    margin-top: 0;
+}
+
+.privacy-card p {
+    color: var(--dark-600);
+    font-size: 1rem;
+    line-height: 1.7;
+    margin-bottom: 20px;
+    text-align: justify;
+}
+
+.privacy-card ul {
+    margin-bottom: 20px;
+    padding-left: 20px;
+}
+
+.privacy-card li {
+    color: var(--dark-600);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin-bottom: 10px;
+    list-style-type: square;
+}
+
+.privacy-card strong {
+    color: var(--dark-800);
+}
+
+.privacy-card a {
+    color: var(--gold-600);
+    text-decoration: underline;
+    font-weight: 600;
+    transition: var(--transition-fast);
+}
+
+.privacy-card a:hover {
+    color: var(--gold-400);
+}
+
+/* ── Responsive ──────────────────────────────── */
+@media (max-width: 768px) {
+    .privacy-page {
+        padding: 40px 0 60px;
+    }
+
+    .privacy-card {
+        padding: 30px 20px;
+        border-radius: var(--radius-md);
+    }
+
+    .privacy-card h2 {
+        font-size: 1.3rem;
+        margin-top: 28px;
+    }
+
+    .privacy-card p, .privacy-card li {
+        font-size: 0.95rem;
+    }
+}

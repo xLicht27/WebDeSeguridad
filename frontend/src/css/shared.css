@@ -519,7 +519,7 @@ h6 {
 
 .footer-grid {
     display: grid;
-    grid-template-columns: 1.5fr 1fr 1fr;
+    grid-template-columns: 1.5fr 1fr 1fr 1.2fr;
     gap: 48px;
     padding-bottom: 48px;
     border-bottom: 1px solid rgba(255, 255, 255, .06);
@@ -557,7 +557,7 @@ h6 {
 
 .footer-links a {
     display: block;
-    color: var(--dark-400);
+    color: var(--dark-300);
     font-size: .88rem;
     padding: 4px 0;
     transition: var(--transition-fast);
@@ -573,7 +573,7 @@ h6 {
     display: flex;
     align-items: center;
     gap: 8px;
-    color: var(--dark-400);
+    color: var(--dark-300);
     font-size: .88rem;
     margin-bottom: 10px;
 }
