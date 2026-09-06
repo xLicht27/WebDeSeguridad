@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react"
-import axios from 'axios'
+import { getSlides, getServicios, getClientes } from '../supabaseClient'
 import '../css/index.css'
 import '../css/shared.css'
 
@@ -12,17 +12,16 @@ function Home() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
-                const [resCarrusel, resServicios, resClientes] = await Promise.all([
-                    axios.get(`${apiUrl}/api/carrusel`),
-                    axios.get(`${apiUrl}/api/servicios`),
-                    axios.get(`${apiUrl}/api/clientes`)
+                const [slidesData, serviciosData, clientesData] = await Promise.all([
+                    getSlides(),
+                    getServicios(),
+                    getClientes()
                 ]);
-                setCarrusel(resCarrusel.data);
-                setServicios(resServicios.data);
-                setClientes(resClientes.data);
+                setCarrusel(slidesData);
+                setServicios(serviciosData);
+                setClientes(clientesData);
             } catch (error) {
-                console.error("Error cargando datos desde la DB:", error);
+                console.error("Error cargando datos desde Supabase:", error);
             } finally {
                 setIsLoading(false);
             }

@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import axios from "axios";
+import { useState } from "react";
+import { postContacto } from "../supabaseClient";
 import '../css/Contacto.css'
 import '../css/shared.css'
 
@@ -17,8 +17,7 @@ function Contacto() {
         const form = event.target;
 
         try {
-            const apiUrl = import.meta.env.VITE_API_URL
-            await axios.post(`${apiUrl}/api/contacto`, {
+            await postContacto({
                 full_name: form.contacto.value,
                 email: form.email.value,
                 phone: form.telefono.value,

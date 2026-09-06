@@ -7,23 +7,28 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+# Dependencies
 node_modules/
 backend/node_modules/
 frontend/node_modules/
 
+# Environment files (SENSIBLE - NUNCA commitear)
 .env
 .env.local
 .env.development
 .env.production
+.env.*.local
+backend/.env
+frontend/.env
 
+# Build output
 dist
 dist-ssr
 frontend/dist/
 *.local
 
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
+# Supabase CLI temp files (contiene project ref y org ID)
+supabase/.temp/
 
 # Editor directories and files
 .vscode/*
@@ -36,3 +41,14 @@ Thumbs.db
 *.njsproj
 *.sln
 *.sw?
+
+# Scripts locales o temporales con secretos
+*.local.bat
+*.local.sh
+scripts/local/
+
+# Backup directories
+*_backup_*/
+
+# OS files
+desktop.ini

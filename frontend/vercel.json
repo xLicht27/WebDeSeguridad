@@ -5,10 +5,6 @@
       "destination": "http://3.210.112.141/$1"
     },
     {
-      "source": "/api/(.*)",
-      "destination": "https://webdeseguridad.onrender.com/api/$1"
-    },
-    {
       "source": "/(.*)",
       "destination": "/index.html"
     }
