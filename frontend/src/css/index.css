@@ -247,6 +247,60 @@
     position: relative;
 }
 
+/* ── Indicadores de confianza ───────────────── */
+.indicadores {
+    padding: 72px 0;
+}
+
+.indicadores-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 28px;
+}
+
+.indicador {
+    text-align: center;
+    padding: 8px 12px;
+}
+
+.indicador-icono {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 64px;
+    height: 64px;
+    border-radius: var(--radius-full);
+    background: linear-gradient(135deg, var(--gold-50), var(--gold-100));
+    color: var(--gold-700);
+    border: 1px solid var(--gold-200);
+    margin-bottom: 18px;
+}
+
+.indicador h3 {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--dark-800);
+    margin-bottom: 8px;
+}
+
+.indicador p {
+    font-size: .9rem;
+    color: var(--dark-400);
+    line-height: 1.6;
+}
+
+@media (max-width: 1024px) {
+    .indicadores-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 560px) {
+    .indicadores-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
 /* ── Intro Band ─────────────────────────────── */
 .intro-band {
     background: var(--gradient-dark);
