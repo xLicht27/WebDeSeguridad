@@ -1,33 +1,23 @@
-import { useEffect, useRef } from 'react';
+import { motion, useReducedMotion } from 'framer-motion';
 
-export default function FadeIn({ children }) {
-    // 1. Creamos una "referencia" al cajón del HTML
-    const domRef = useRef();
+const MotionDiv = motion.div;
 
-    // 2. Encendemos el observador estilo React
-    useEffect(() => {
-        const observer = new IntersectionObserver(entries => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                    // Descomenta la siguiente línea si SÓLO quieres que aparezca la primera vez
-                    // observer.unobserve(entry.target); 
-                }
-            });
-        }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+/**
+ * Aparece al entrar en pantalla (una sola vez).
+ * Sustituye al IntersectionObserver manual que teníamos antes.
+ */
+export default function FadeIn({ children, delay = 0, y = 30, className = '' }) {
+    const reduceMotion = useReducedMotion();
 
-        const { current } = domRef;
-        if (current) observer.observe(current);
-
-        return () => {
-            if (current) observer.unobserve(current);
-        };
-    }, []);
-
-    // 3. Devolvemos el HTML con la clase "fade-in" original de tu CSS
     return (
-        <div className="fade-in" ref={domRef}>
+        <MotionDiv
+            className={className}
+            initial={reduceMotion ? false : { opacity: 0, y }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.15, margin: '0px 0px -40px 0px' }}
+            transition={{ duration: 0.6, ease: [0.21, 0.47, 0.32, 0.98], delay }}
+        >
             {children}
-        </div>
+        </MotionDiv>
     );
 }

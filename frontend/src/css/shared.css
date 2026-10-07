@@ -2,7 +2,7 @@
    PRESER SEGURIDAD S.A.C. — Design System
    ═══════════════════════════════════════════════ */
 
-@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Oswald:wght@200..700&display=swap');
 
 /* ── Tokens ─────────────────────────────────── */
 :root {
@@ -49,12 +49,15 @@
     --radius-xl: 24px;
     --radius-full: 9999px;
 
+    /* Oswald (condensada) solo para títulos; Inter para lectura larga */
     --font-heading: 'Oswald', sans-serif;
-    --font-body: 'Oswald', sans-serif;
+    --font-body: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
 
     --transition-fast: 0.2s cubic-bezier(.4, 0, .2, 1);
     --transition-base: 0.3s cubic-bezier(.4, 0, .2, 1);
     --transition-slow: 0.5s cubic-bezier(.4, 0, .2, 1);
+
+    --focus-ring: 0 0 0 3px rgba(245, 197, 24, .55);
 }
 
 /* ── Reset ──────────────────────────────────── */
@@ -69,6 +72,28 @@
 html {
     scroll-behavior: smooth;
     font-size: 16px;
+}
+
+/* Respeta la preferencia del usuario de reducir movimiento */
+@media (prefers-reduced-motion: reduce) {
+
+    html {
+        scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+        scroll-behavior: auto !important;
+    }
+
+    .fade-in {
+        opacity: 1;
+        transform: none;
+    }
 }
 
 body {
@@ -88,6 +113,36 @@ img {
 a {
     text-decoration: none;
     color: inherit;
+}
+
+/* Foco visible accesible (teclado) */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible,
+[tabindex]:focus-visible {
+    outline: none;
+    box-shadow: var(--focus-ring);
+    border-radius: var(--radius-sm);
+}
+
+::selection {
+    background: rgba(245, 197, 24, .35);
+    color: var(--dark-900);
+}
+
+/* Texto visible solo para lectores de pantalla */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
 }
 
 ul {
@@ -164,18 +219,25 @@ h6 {
     gap: 8px;
 }
 
-.nav-links a {
+.nav-links a,
+.nav-links button {
     color: var(--dark-200);
+    font-family: var(--font-body);
     font-size: .9rem;
     font-weight: 500;
     padding: 8px 16px;
+    border: none;
+    background: none;
     border-radius: var(--radius-sm);
+    cursor: pointer;
     transition: var(--transition-fast);
     position: relative;
 }
 
 .nav-links a:hover,
-.nav-links a.active {
+.nav-links a.active,
+.nav-links button:hover,
+.nav-links button.is-active {
     color: var(--gold-400);
     background: rgba(212, 168, 16, .08);
 }
@@ -185,13 +247,13 @@ h6 {
     position: relative;
 }
 
-.nav-dropdown>a {
+.nav-dropdown>button {
     display: flex;
     align-items: center;
     gap: 4px;
 }
 
-.nav-dropdown>a::after {
+.nav-dropdown>button::after {
     content: '';
     border: 5px solid transparent;
     border-top-color: currentColor;
@@ -199,7 +261,8 @@ h6 {
     transition: var(--transition-fast);
 }
 
-.nav-dropdown:hover>a::after {
+.nav-dropdown:hover>button::after,
+.nav-dropdown.open>button::after {
     transform: rotate(180deg);
     margin-top: -3px;
 }
@@ -220,7 +283,10 @@ h6 {
     box-shadow: var(--shadow-xl);
 }
 
-.nav-dropdown:hover .dropdown-menu {
+/* Abre al pasar el mouse, al enfocar con teclado o al hacer clic */
+.nav-dropdown:hover .dropdown-menu,
+.nav-dropdown:focus-within .dropdown-menu,
+.nav-dropdown.open .dropdown-menu {
     opacity: 1;
     visibility: visible;
     transform: translateX(-50%) translateY(0);
@@ -233,6 +299,14 @@ h6 {
     font-size: .85rem;
     border-radius: var(--radius-sm);
     transition: var(--transition-fast);
+}
+
+.dropdown-menu a.dropdown-all {
+    color: var(--gold-400);
+    font-weight: 600;
+    border-bottom: 1px solid rgba(212, 168, 16, .18);
+    border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+    margin-bottom: 4px;
 }
 
 .dropdown-menu a:hover {
@@ -366,6 +440,10 @@ h6 {
     gap: 24px;
 }
 
+.services-grid>.fade-card {
+    height: 100%;
+}
+
 .service-card {
     background: var(--white);
     border: 1px solid var(--dark-100);
@@ -374,6 +452,9 @@ h6 {
     transition: var(--transition-base);
     position: relative;
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
 }
 
 .service-card::before {
@@ -431,6 +512,7 @@ h6 {
     display: inline-flex;
     align-items: center;
     gap: 6px;
+    margin-top: auto;
     transition: var(--transition-fast);
 }
 
@@ -745,7 +827,8 @@ h6 {
     }
 
     .nav-links>a,
-    .nav-dropdown>a {
+    .nav-links>button,
+    .nav-dropdown>button {
         display: block;
         width: 100%;
         text-align: center;
@@ -753,7 +836,7 @@ h6 {
     }
 
     /* Specific handling for the 'Servicios' link with arrow */
-    .nav-dropdown>a {
+    .nav-dropdown>button {
         display: flex;
         justify-content: center;
         align-items: center;

@@ -1,22 +1,31 @@
 import { useState, useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, NavLink, useLocation } from 'react-router-dom';
+import { SERVICIOS } from '../data/servicios';
 
 export default function Navbar() {
     const [scrolled, setScrolled] = useState(false);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const navRef = useRef(null);
+    const location = useLocation();
 
-    // Lógica del scroll al estilo React
+    // Cerrar todo al cambiar de ruta (patrón "adjusting state during render")
+    const [rutaPrevia, setRutaPrevia] = useState(location.pathname);
+    if (rutaPrevia !== location.pathname) {
+        setRutaPrevia(location.pathname);
+        setIsMenuOpen(false);
+        setIsDropdownOpen(false);
+    }
+
+    // Scroll para darle sombra a la navbar
     useEffect(() => {
-        const handleScroll = () => {
-            setScrolled(window.scrollY > 40);
-        };
-        window.addEventListener('scroll', handleScroll);
-        return () => window.removeEventListener('scroll', handleScroll); // Se limpia al salir
+        const handleScroll = () => setScrolled(window.scrollY > 40);
+        handleScroll();
+        window.addEventListener('scroll', handleScroll, { passive: true });
+        return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
-    // Lógica para cerrar el menú al hacer click fuera de la navbar
+    // Cerrar con click fuera y con la tecla Escape
     useEffect(() => {
         const handleClickOutside = (event) => {
             if (navRef.current && !navRef.current.contains(event.target)) {
@@ -24,67 +33,81 @@ export default function Navbar() {
                 setIsDropdownOpen(false);
             }
         };
+        const handleKeyDown = (event) => {
+            if (event.key === 'Escape') {
+                setIsMenuOpen(false);
+                setIsDropdownOpen(false);
+            }
+        };
 
-        if (isMenuOpen || isDropdownOpen) {
-            document.addEventListener('mousedown', handleClickOutside);
-            document.addEventListener('touchstart', handleClickOutside);
-        }
+        document.addEventListener('mousedown', handleClickOutside);
+        document.addEventListener('touchstart', handleClickOutside);
+        document.addEventListener('keydown', handleKeyDown);
 
         return () => {
             document.removeEventListener('mousedown', handleClickOutside);
             document.removeEventListener('touchstart', handleClickOutside);
+            document.removeEventListener('keydown', handleKeyDown);
         };
-    }, [isMenuOpen, isDropdownOpen]);
+    }, []);
 
     const closeMenus = () => {
         setIsMenuOpen(false);
         setIsDropdownOpen(false);
     };
 
-    const toggleDropdown = (e) => {
-        if (window.innerWidth <= 768) {
-            e.preventDefault();
-            setIsDropdownOpen(!isDropdownOpen);
-        }
-    };
+    const isServiciosActive = location.pathname.toLowerCase().startsWith('/servicios');
 
     return (
         <nav ref={navRef} className={`navbar ${scrolled ? 'scrolled' : ''}`}>
             <div className="container">
                 {/* LOGO */}
-                <Link to="/" className="navbar-brand">
+                <Link to="/" className="navbar-brand" onClick={closeMenus}>
                     <img src="/img/logo.png" alt="Preser Seguridad Logo" />
                     <span>PRESER SEGURIDAD S.A.C.</span>
                 </Link>
 
                 {/* ENLACES */}
-                <div className={`nav-links ${isMenuOpen ? 'open' : ''}`}>
-                    <Link to="/" onClick={closeMenus}>Inicio</Link>
-                    <Link to="/nosotros" onClick={closeMenus}>Nosotros</Link>
+                <div id="nav-links" className={`nav-links ${isMenuOpen ? 'open' : ''}`}>
+                    <NavLink to="/" onClick={closeMenus} end>Inicio</NavLink>
+                    <NavLink to="/nosotros" onClick={closeMenus}>Nosotros</NavLink>
 
                     {/* MENÚ DESPLEGABLE */}
                     <div className={`nav-dropdown ${isDropdownOpen ? 'open' : ''}`}>
-                        <a href="#" onClick={toggleDropdown}>Servicios</a>
-                        <div className="dropdown-menu">
-                            <Link to="/servicios/custodia" onClick={closeMenus}>Custodia de Mercadería en Tránsito</Link>
-                            <Link to="/servicios/instalaciones" onClick={closeMenus}>Seguridad en Instalaciones</Link>
-                            <Link to="/servicios/investigacion" onClick={closeMenus}>Servicios de Investigación</Link>
-                            <Link to="/servicios/traslado" onClick={closeMenus}>Traslado y Protección Corporativa</Link>
-                            <Link to="/servicios/proteccionP" onClick={closeMenus}>Protección a Personalidades</Link>
-                            <Link to="/servicios/eventos" onClick={closeMenus}>Seguridad para Eventos</Link>
-                            <Link to="/servicios/verificaciones" onClick={closeMenus}>Servicio de Verificaciones</Link>
+                        <button
+                            type="button"
+                            aria-expanded={isDropdownOpen}
+                            aria-controls="servicios-menu"
+                            aria-haspopup="true"
+                            className={isServiciosActive ? 'is-active' : ''}
+                            onClick={() => setIsDropdownOpen((open) => !open)}
+                        >
+                            Servicios
+                        </button>
+                        <div id="servicios-menu" className="dropdown-menu">
+                            <Link to="/servicios" onClick={closeMenus} className="dropdown-all">
+                                Ver todos los servicios
+                            </Link>
+                            {SERVICIOS.map((servicio) => (
+                                <Link key={servicio.slug} to={`/servicios/${servicio.slug}`} onClick={closeMenus}>
+                                    {servicio.menuLabel || servicio.navLabel}
+                                </Link>
+                            ))}
                         </div>
                     </div>
 
-                    <Link to="/noticias" onClick={closeMenus}>Noticias</Link>
-                    <Link to="/contacto" onClick={closeMenus}>Contáctanos</Link>
+                    <NavLink to="/noticias" onClick={closeMenus}>Noticias</NavLink>
+                    <NavLink to="/contacto" onClick={closeMenus}>Contáctanos</NavLink>
                 </div>
 
                 {/* BOTÓN MÓVIL (Hamburguesa) */}
                 <button
+                    type="button"
                     className={`nav-toggle ${isMenuOpen ? 'active' : ''}`}
-                    onClick={() => setIsMenuOpen(!isMenuOpen)}
+                    onClick={() => setIsMenuOpen((open) => !open)}
                     aria-label="Abrir menú"
+                    aria-expanded={isMenuOpen}
+                    aria-controls="nav-links"
                 >
                     <span></span><span></span><span></span>
                 </button>

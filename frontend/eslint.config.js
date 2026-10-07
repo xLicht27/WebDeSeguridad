@@ -23,7 +23,12 @@ export default defineConfig([
       },
     },
     rules: {
-      'no-unused-vars': ['error', { varsIgnorePattern: '^[A-Z_]' }],
+      // Los nombres en mayúscula son componentes usados en JSX (el parser no los marca)
+      'no-unused-vars': ['error', {
+        varsIgnorePattern: '^[A-Z_]',
+        argsIgnorePattern: '^[A-Z_]',
+        caughtErrorsIgnorePattern: '^[A-Z_]',
+      }],
     },
   },
 ])
