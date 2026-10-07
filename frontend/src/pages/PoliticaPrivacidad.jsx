@@ -1,8 +1,14 @@
 import '../css/PoliticaPrivacidad.css';
 import '../css/shared.css';
 import FadeIn from '../components/FadeIn';
+import useSeo from '../hooks/useSeo';
 
 export default function PoliticaPrivacidad() {
+    useSeo({
+        title: 'Política de Privacidad',
+        description: 'Política de privacidad de PRESER SEGURIDAD S.A.C. conforme a la Ley N° 29733 de Protección de Datos Personales en el Perú.',
+    });
+
     return (
         <>
             {/* Page Hero */}

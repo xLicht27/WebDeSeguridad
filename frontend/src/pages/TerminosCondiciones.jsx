@@ -1,8 +1,14 @@
 import '../css/PoliticaPrivacidad.css'; // Reutiliza los estilos simétricos de lectura
 import '../css/shared.css';
 import FadeIn from '../components/FadeIn';
+import useSeo from '../hooks/useSeo';
 
 export default function TerminosCondiciones() {
+    useSeo({
+        title: 'Términos y Condiciones',
+        description: 'Términos y condiciones de uso del sitio web de PRESER SEGURIDAD S.A.C. y condiciones de las solicitudes de cotización.',
+    });
+
     return (
         <>
             {/* Page Hero */}

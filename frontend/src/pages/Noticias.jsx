@@ -3,8 +3,14 @@ import { obtenerNoticias } from '../ghostClient' // <--- NUEVO IMPORT
 import { Link } from 'react-router-dom'
 import '../css/shared.css'
 import '../css/index.css'
+import useSeo from '../hooks/useSeo'
 
 function Noticias() {
+    useSeo({
+        title: 'Noticias',
+        description: 'Novedades, comunicados y actualizaciones de PRESER SEGURIDAD S.A.C. y del sector de la seguridad integral.',
+    });
+
     const [noticias, setNoticias] = useState([])
     const [cargando, setCargando] = useState(true)
 

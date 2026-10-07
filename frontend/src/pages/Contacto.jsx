@@ -4,8 +4,14 @@ import '../css/Contacto.css'
 import '../css/shared.css'
 
 import FadeIn from "../components/FadeIn";
+import useSeo from "../hooks/useSeo";
 
 function Contacto() {
+    useSeo({
+        title: 'Contáctanos',
+        description: 'Contacte a PRESER SEGURIDAD S.A.C.: formulario de solicitud, teléfonos 979 776 518 / 941 283 800 y oficina en Jr. Los Mirtos N° 280, Lince, Lima.',
+    });
+
     const [enviado, setEnviado] = useState(false);
     const [resultado, setResultado] = useState(null);
 

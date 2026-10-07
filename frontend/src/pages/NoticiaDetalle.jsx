@@ -3,11 +3,18 @@ import { useParams, Link } from 'react-router-dom'
 import { obtenerNoticiaPorSlug } from '../ghostClient' // <--- NUEVO IMPORT
 import '../css/shared.css'
 import '../css/index.css'
+import useSeo from '../hooks/useSeo'
 
 function NoticiaDetalle() {
     const { slug } = useParams()
     const [noticia, setNoticia] = useState(null)
     const [cargando, setCargando] = useState(true)
+
+    // Se registra antes de los retornos condicionales (regla de hooks)
+    useSeo({
+        title: noticia?.title,
+        description: noticia?.custom_excerpt || noticia?.excerpt,
+    })
 
     useEffect(() => {
         obtenerNoticiaPorSlug(slug).then(post => {

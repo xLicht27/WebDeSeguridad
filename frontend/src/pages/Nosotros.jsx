@@ -2,8 +2,14 @@ import '../css/Nosotros.css'
 import '../css/shared.css'
 
 import FadeIn from "../components/FadeIn";
+import useSeo from "../hooks/useSeo";
 
 function Nosotros() {
+    useSeo({
+        title: 'Nosotros',
+        description: 'Conozca PRESER SEGURIDAD S.A.C.: equipo con experiencia PNP®, valores PRESER, logística, pólizas de seguro y estándares de calidad en seguridad integral.',
+    });
+
 
     return (
         <>
